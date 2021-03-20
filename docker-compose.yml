@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    environment:
+      DATABASE_URL: postgresql://jelkand:dummypass@host.docker.internal:5432/dev-db?schema=public
+      PORT: 3000
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./:/usr/src/app
+      - ./node_modules:/usr/src/app/node_modules
+      - /usr/src/app/dist
+    depends_on:
+      - db
+
+  ci:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ci
+    environment:
+      - DATABASE_URL
+      - PORT
+    ports:
+      - '3000:3000'
+
+  db:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: dummypass
+      POSTGRES_DB: dev-db
+      POSTGRES_USER: jelkand
+    volumes:
+      - /var/lib/postgresql/data

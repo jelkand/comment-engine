@@ -1,4 +1,4 @@
-name: Deploy typescript-service-template to Heroku
+name: Deploy comment-engine to Heroku
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  SERVICE_NAME: typescript-service-template
+  SERVICE_NAME: comment-engine
 
 jobs:
   build:
@@ -33,7 +33,7 @@ jobs:
       - name: Build and push
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a typescript-service-template web 
+        run: heroku container:push -a comment-engine web 
 
       - name: Migrate production database
         run: docker-compose run --rm -e DATABASE_URL=${{ secrets.DATABASE_URL }} ci yarn migrate:ci 
@@ -41,4 +41,4 @@ jobs:
       - name: Release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a typescript-service-template web 
+        run: heroku container:release -a comment-engine web 

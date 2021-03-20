@@ -8,7 +8,7 @@ import { LoggingPlugin } from './plugins/loggingPlugin'
 import { context } from './context'
 ;(async (): Promise<void> => {
   const logger = pino({
-    name: 'typescript-service-template',
+    name: 'comment-engine',
     prettyPrint: process.env.NODE_ENV !== 'production' && {
       colorize: true,
       translateTime: true,
@@ -26,6 +26,6 @@ import { context } from './context'
 
   await server.listen(port)
   logger.info({
-    message: `typescript-service-template listening on port ${port}`,
+    message: `comment-engine listening on port ${port}`,
   })
 })()

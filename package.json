@@ -1,5 +1,5 @@
 {
-  "name": "typescript-service-template",
+  "name": "comment-engine",
   "version": "0.1.0",
   "description": "An opinionated template for spinning up typescript services.",
   "scripts": {
@@ -17,14 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jelkand/typescript-service-template.git"
+    "url": "git+https://github.com/jelkand/comment-engine.git"
   },
   "author": "Jack Anderson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jelkand/typescript-service-template/issues"
+    "url": "https://github.com/jelkand/comment-engine/issues"
   },
-  "homepage": "https://github.com/jelkand/typescript-service-template#readme",
+  "homepage": "https://github.com/jelkand/comment-engine#readme",
   "devDependencies": {
     "@types/jest": "^26.0.21",
     "@typescript-eslint/eslint-plugin": "^4.18.0",

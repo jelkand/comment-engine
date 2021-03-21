@@ -2,25 +2,56 @@
 ### Do not make changes to this file directly
 
 
+type Comment {
+  commentable: Commentable
+  commentableId: String!
+  createdAt: DateTime
+  id: ID!
+  text: String!
+  updatedAt: DateTime
+}
+
+input CommentCreateInput {
+  contentId: ID!
+  tenantId: ID!
+  text: String!
+}
+
+type Commentable {
+  comments: [Comment!]
+  contentId: String!
+  createdAt: DateTime
+  id: ID!
+  tenantId: String!
+  updatedAt: DateTime
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
 type Mutation {
-  createSample(attribute: String): Sample!
-  deleteSample(id: ID!): Sample
-  updateSample(attribute: String, id: ID!): Sample
+  addCommentToCommentable(data: CommentCreateInput!): Commentable!
+  deleteComment(id: ID!): Comment
+  registerTenant(data: TenantCreateInput!): Tenant!
 }
 
 type Query {
-  allSamples: [Sample]!
-  sample(id: ID!): Sample
+  allComments: [Comment]!
+  commentableById(id: ID!): Commentable
+  tenantById(id: ID!): Tenant
+  tenants: [Tenant]!
 }
 
-type Sample {
-  attribute: String
+type Tenant {
+  commentables: [Commentable!]
   createdAt: DateTime
   id: ID!
+  name: String!
   updatedAt: DateTime
+}
+
+input TenantCreateInput {
+  name: String!
 }

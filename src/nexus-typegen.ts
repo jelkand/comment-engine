@@ -29,6 +29,14 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CommentCreateInput: { // input type
+    contentId: string; // ID!
+    tenantId: string; // ID!
+    text: string; // String!
+  }
+  TenantCreateInput: { // input type
+    name: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
@@ -44,12 +52,26 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  Mutation: {};
-  Query: {};
-  Sample: { // root type
-    attribute?: string | null; // String
+  Comment: { // root type
+    commentableId: string; // String!
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     id: string; // ID!
+    text: string; // String!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  Commentable: { // root type
+    contentId: string; // String!
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    tenantId: string; // String!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  Mutation: {};
+  Query: {};
+  Tenant: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    name: string; // String!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
 }
@@ -65,56 +87,96 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
-  Mutation: { // field return type
-    createSample: NexusGenRootTypes['Sample']; // Sample!
-    deleteSample: NexusGenRootTypes['Sample'] | null; // Sample
-    updateSample: NexusGenRootTypes['Sample'] | null; // Sample
-  }
-  Query: { // field return type
-    allSamples: Array<NexusGenRootTypes['Sample'] | null>; // [Sample]!
-    sample: NexusGenRootTypes['Sample'] | null; // Sample
-  }
-  Sample: { // field return type
-    attribute: string | null; // String
+  Comment: { // field return type
+    commentable: NexusGenRootTypes['Commentable'] | null; // Commentable
+    commentableId: string; // String!
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     id: string; // ID!
+    text: string; // String!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  Commentable: { // field return type
+    comments: NexusGenRootTypes['Comment'][] | null; // [Comment!]
+    contentId: string; // String!
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    tenantId: string; // String!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  Mutation: { // field return type
+    addCommentToCommentable: NexusGenRootTypes['Commentable']; // Commentable!
+    deleteComment: NexusGenRootTypes['Comment'] | null; // Comment
+    registerTenant: NexusGenRootTypes['Tenant']; // Tenant!
+  }
+  Query: { // field return type
+    allComments: Array<NexusGenRootTypes['Comment'] | null>; // [Comment]!
+    commentableById: NexusGenRootTypes['Commentable'] | null; // Commentable
+    tenantById: NexusGenRootTypes['Tenant'] | null; // Tenant
+    tenants: Array<NexusGenRootTypes['Tenant'] | null>; // [Tenant]!
+  }
+  Tenant: { // field return type
+    commentables: NexusGenRootTypes['Commentable'][] | null; // [Commentable!]
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    name: string; // String!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
 }
 
 export interface NexusGenFieldTypeNames {
-  Mutation: { // field return type name
-    createSample: 'Sample'
-    deleteSample: 'Sample'
-    updateSample: 'Sample'
-  }
-  Query: { // field return type name
-    allSamples: 'Sample'
-    sample: 'Sample'
-  }
-  Sample: { // field return type name
-    attribute: 'String'
+  Comment: { // field return type name
+    commentable: 'Commentable'
+    commentableId: 'String'
     createdAt: 'DateTime'
     id: 'ID'
+    text: 'String'
+    updatedAt: 'DateTime'
+  }
+  Commentable: { // field return type name
+    comments: 'Comment'
+    contentId: 'String'
+    createdAt: 'DateTime'
+    id: 'ID'
+    tenantId: 'String'
+    updatedAt: 'DateTime'
+  }
+  Mutation: { // field return type name
+    addCommentToCommentable: 'Commentable'
+    deleteComment: 'Comment'
+    registerTenant: 'Tenant'
+  }
+  Query: { // field return type name
+    allComments: 'Comment'
+    commentableById: 'Commentable'
+    tenantById: 'Tenant'
+    tenants: 'Tenant'
+  }
+  Tenant: { // field return type name
+    commentables: 'Commentable'
+    createdAt: 'DateTime'
+    id: 'ID'
+    name: 'String'
     updatedAt: 'DateTime'
   }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
-    createSample: { // args
-      attribute?: string | null; // String
+    addCommentToCommentable: { // args
+      data: NexusGenInputs['CommentCreateInput']; // CommentCreateInput!
     }
-    deleteSample: { // args
+    deleteComment: { // args
       id: string; // ID!
     }
-    updateSample: { // args
-      attribute?: string | null; // String
-      id: string; // ID!
+    registerTenant: { // args
+      data: NexusGenInputs['TenantCreateInput']; // TenantCreateInput!
     }
   }
   Query: {
-    sample: { // args
+    commentableById: { // args
+      id: string; // ID!
+    }
+    tenantById: { // args
       id: string; // ID!
     }
   }
@@ -128,7 +190,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = never;
 
